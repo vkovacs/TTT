@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Test
 
-class FilterTTTKupaHikesTest {
-    private FilterTTTKupaHikes underTest = new FilterTTTKupaHikes()
+class HikeDetailHandlerTest {
+    private MyHikesHandler underTest = new MyHikesHandler()
 
     @Test
     void isTTTKupa() {
