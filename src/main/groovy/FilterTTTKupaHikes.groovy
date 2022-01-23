@@ -7,12 +7,17 @@ def allHikes = jsonSlurper.parseText(inputFile[0]) as List
 final int BUDAPEST_REGION = 8
 final int BUDAI_HEGYSEG_REGION = 9
 
-println allHikes
+def myHikes = allHikes
         .findAll { it.regions.contains(BUDAPEST_REGION) || it.regions.contains(BUDAI_HEGYSEG_REGION) }
-        .collect { new File("../resources/${it.id}").readLines()}
-        .collect {it.join()}
-        .findAll {isTTTKupa(it)}
-        .size()
+        .findAll {
+            def hikeDetails = new File("../resources/${it.id}").readLines().join()
+            isTTTKupa(hikeDetails)
+        }
+        .collect {
+            new Hike(id: it.id, name: it.displayName, location: it.routes[0].route[0], startTime: java.time.LocalDateTime.ofEpochSecond(it.routes[0].startTimeFrom, 0, java.time.ZoneOffset.of("+01:00")), endTime:java.time.LocalDateTime.ofEpochSecond(it.routes[0].startTimeTo, 0, java.time.ZoneOffset.of("+01:00")),  url: "https://tturak.hu/api/hikeoccasion/${it.id}")
+        }
+
+print(myHikes)
 
 
 boolean isTTTKupa(String description) {
