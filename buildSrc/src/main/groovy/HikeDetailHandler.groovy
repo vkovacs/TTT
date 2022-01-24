@@ -4,7 +4,7 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
-def inputFile = new File("../resources/all-hikes.json").readLines()
+def inputFile = new File("../../build/tmp/resources/all-hikes.json").readLines()
 JsonSlurper jsonSlurper = new JsonSlurper()
 def allHikes = jsonSlurper.parseText(inputFile[0]) as List
 
@@ -17,6 +17,6 @@ allHikes
             def hikeDetailsResponse = httpClient.send(hikeDetailsRequest, HttpResponse.BodyHandlers.ofString())
             def description = new JsonSlurper().parseText(hikeDetailsResponse.body()).description
 
-            new File("../resources/${it.id}").write(description == null ? "" : description)
+            new File("../../build/tmp/resources/${it.id}").write(description == null ? "" : description)
         }
 

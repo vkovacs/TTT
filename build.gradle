@@ -19,3 +19,20 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+clean {
+    finalizedBy("prepareDirs")
+}
+
+tasks.register("prepareDirs") {
+    doLast {
+        mkdir "$buildDir/hike"
+    }
+}
+
+tasks.register("DownloadAllHikes") {
+    group = "TTT"
+    doFirst {
+        new HikeHandler().run()
+    }
+}
