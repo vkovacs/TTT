@@ -24,15 +24,18 @@ clean {
     finalizedBy("prepareDirs")
 }
 
-tasks.register("prepareDirs") {
-    doLast {
-        mkdir "$buildDir/hike"
-    }
-}
-
 tasks.register("DownloadAllHikes") {
     group = "TTT"
     doFirst {
         new HikeHandler().run()
     }
+}
+
+tasks.register("DownloadHikeDetails") {
+    group = "TTT"
+    dependsOn "DownloadAllHikes"
+    doFirst {
+        new HikeDetailHandler().run()
+    }
+
 }
