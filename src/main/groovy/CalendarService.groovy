@@ -23,7 +23,7 @@ class CalendarService {
     /** Global instance of the JSON factory. */
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     /** Directory to store authorization tokens for this application. */
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
+    private static final String TOKENS_DIRECTORY_PATH = "../../../tokens";
 
     /**
      * Global instance of the scopes required by this quickstart.
