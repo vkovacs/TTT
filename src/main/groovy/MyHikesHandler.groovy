@@ -1,3 +1,5 @@
+import domain.Hike
+import domain.Regions
 import groovy.json.JsonSlurper
 import groovy.transform.Field
 

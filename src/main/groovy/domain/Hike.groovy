@@ -1,3 +1,5 @@
+package domain
+
 import groovy.transform.ToString
 
 import java.time.LocalDateTime

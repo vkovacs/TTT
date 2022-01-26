@@ -1,3 +1,4 @@
+import domain.Regions
 import groovy.json.JsonSlurper
 
 import java.net.http.HttpClient

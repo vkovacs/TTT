@@ -14,6 +14,7 @@ import com.google.api.services.calendar.CalendarScopes
 import com.google.api.services.calendar.model.Event
 import com.google.api.services.calendar.model.EventDateTime
 import com.google.api.services.calendar.model.Events
+import domain.Hike
 
 import java.time.ZoneOffset
 
