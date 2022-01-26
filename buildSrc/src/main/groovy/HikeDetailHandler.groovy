@@ -16,8 +16,8 @@ allHikes
             def httpClient = HttpClient.newHttpClient()
             def hikeDetailsRequest = HttpRequest.newBuilder(new URI("https://tturak.hu/api/hikeoccasion/${it.id}")).GET().build()
             def hikeDetailsResponse = httpClient.send(hikeDetailsRequest, HttpResponse.BodyHandlers.ofString())
-            def description = new JsonSlurper().parseText(hikeDetailsResponse.body()).description
+            String description = new JsonSlurper().parseText(hikeDetailsResponse.body()).description
 
-            new File("datasource/${it.id}").write(description == null ? "" : description, "utf-8")
+            new File("datasource/${it.id}").write(description == null ? "" : description.replaceAll(/&nbsp;/, ' '), "utf-8")
         }
 
