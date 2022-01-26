@@ -12,6 +12,7 @@ import com.google.api.client.util.store.FileDataStoreFactory
 import com.google.api.services.calendar.Calendar
 import com.google.api.services.calendar.CalendarScopes
 import com.google.api.services.calendar.model.Event
+import com.google.api.services.calendar.model.EventDateTime
 import com.google.api.services.calendar.model.Events
 
 import java.security.GeneralSecurityException
@@ -29,7 +30,7 @@ class CalendarQuickstart {
      * Global instance of the scopes required by this quickstart.
      * If modifying these scopes, delete your previously saved tokens/ folder.
      */
-    private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
+    private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_EVENTS);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
     /**
@@ -70,7 +71,30 @@ class CalendarQuickstart {
                 .setApplicationName(APPLICATION_NAME)
                 .build();
 
-        // List the next 10 events from the primary calendar.
+        Event event = new Event()
+                .setSummary("Test")
+                .setLocation("800 Howard St., San Francisco, CA 94103")
+                .setDescription("A chance to hear more about Google's developer products.");
+
+        DateTime startDateTime = new DateTime("2022-01-26T19:00:00+01:00");
+        EventDateTime start = new EventDateTime()
+                .setDateTime(startDateTime)
+                .setTimeZone("America/Los_Angeles");
+        event.setStart(start);
+
+        DateTime endDateTime = new DateTime("2022-01-26T20:00:00+01:00");
+        EventDateTime end = new EventDateTime()
+                .setDateTime(endDateTime)
+                .setTimeZone("America/Los_Angeles");
+        event.setEnd(end);
+        service.events().insert(calendarId, event).execute()
+
+
+        getEvents(service, calendarId)
+    }
+
+    private static void getEvents(Calendar service, String calendarId) {
+// List the next 10 events from the primary calendar.
         DateTime now = new DateTime(System.currentTimeMillis());
         Events events = service.events().list(calendarId)
                 .setMaxResults(10)
