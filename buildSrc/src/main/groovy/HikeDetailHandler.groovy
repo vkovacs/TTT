@@ -17,6 +17,6 @@ allHikes
             def hikeDetailsResponse = httpClient.send(hikeDetailsRequest, HttpResponse.BodyHandlers.ofString())
             def description = new JsonSlurper().parseText(hikeDetailsResponse.body()).description
 
-            new File("datasource/${it.id}").write(description == null ? "" : description)
+            new File("datasource/${it.id}").write(description == null ? "" : description, "utf-8")
         }
 

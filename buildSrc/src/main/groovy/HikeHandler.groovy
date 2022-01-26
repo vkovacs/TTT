@@ -17,4 +17,4 @@ def getHikesForThisYearRequest = HttpRequest.newBuilder(new URI(allHikesQueryUrl
 def httpClient = HttpClient.newHttpClient()
 def getHikesForThisYearResponse = httpClient.send(getHikesForThisYearRequest, HttpResponse.BodyHandlers.ofString())
 
-new File("datasource/all-hikes.json").write(getHikesForThisYearResponse.body())
+new File("datasource/all-hikes.json").write(getHikesForThisYearResponse.body(), "utf-8")
