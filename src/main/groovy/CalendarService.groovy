@@ -69,7 +69,9 @@ class CalendarService {
     }
 
     void addHikes(String calendarId, List<Hike> hikes) {
-        service.events().insert(calendarId, toEvent(hikes[0])).execute()
+        hikes.forEach{
+            service.events().insert(calendarId, toEvent(it)).execute()
+        }
     }
 
     private static void getEvents(Calendar service, String calendarId) {
