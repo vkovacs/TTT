@@ -1,3 +1,5 @@
+package crs.ttt.service
+
 import com.google.api.client.auth.oauth2.Credential
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver
@@ -14,12 +16,11 @@ import com.google.api.services.calendar.CalendarScopes
 import com.google.api.services.calendar.model.Event
 import com.google.api.services.calendar.model.EventDateTime
 import com.google.api.services.calendar.model.Events
-import domain.Hike
-
-import java.time.ZoneOffset
+import crs.ttt.config.Configuration
+import crs.ttt.domain.Hike
 
 class CalendarService {
-    /** Application name. */
+    /** crs.ttt.Application name. */
     private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart"
     /** Global instance of the JSON factory. */
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance()
@@ -28,8 +29,7 @@ class CalendarService {
 
     /**
      * Global instance of the scopes required by this quickstart.
-     * If modifying these scopes, delete your previously saved tokens/ folder.
-     */
+     * If modifying these scopes, delete your previously saved tokens/ folder.*/
     private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_EVENTS)
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json"
     private static final Calendar service
@@ -49,8 +49,7 @@ class CalendarService {
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(inp))
 
         // Build flow and trigger user authorization request.
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
                 .setDataStoreFactory(new FileDataStoreFactory(new File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType("offline")
                 .build()
@@ -61,21 +60,21 @@ class CalendarService {
     }
 
     static {
-        // Build a new authorized API client service.
+        // Build a new authorized API client crs.ttt.service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport()
         service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
                 .build()
     }
 
-    void addHikes(String calendarId, List<Hike> hikes) {
-        hikes.forEach{
+    void insertHikes(String calendarId, List<Hike> hikes) {
+        hikes.forEach {
             service.events().insert(calendarId, toEvent(it)).execute()
         }
     }
 
     void printEvents(String calendarId) {
-// List the next 10 events from the primary calendar.
+    // List the next 10 events from the primary calendar.
         DateTime now = new DateTime(System.currentTimeMillis())
         Events events = service.events().list(calendarId)
                 .setMaxResults(10)
@@ -104,17 +103,18 @@ class CalendarService {
                 .setLocation(hike.location)
                 .setDescription(hike.url)
 
-        DateTime startDateTime = new DateTime(hike.startTime.toEpochSecond(ZoneOffset.of("+01:00")) * 1000)
+        DateTime startDateTime = new DateTime(hike.startTime.toEpochSecond(Configuration.myZoneOffset) * 1000)
         EventDateTime start = new EventDateTime()
                 .setDateTime(startDateTime)
                 .setTimeZone("Europe/Budapest")
         event.setStart(start)
 
-        DateTime endDateTime = new DateTime(hike.endTime.toEpochSecond(ZoneOffset.of("+01:00")) * 1000)
+        DateTime endDateTime = new DateTime(hike.endTime.toEpochSecond(Configuration.myZoneOffset) * 1000)
         EventDateTime end = new EventDateTime()
                 .setDateTime(endDateTime)
                 .setTimeZone("Europe/Budapest")
         event.setEnd(end)
+
         return event
     }
 }

@@ -1,4 +1,4 @@
-package domain
+package crs.ttt.domain
 
 import groovy.transform.ToString
 

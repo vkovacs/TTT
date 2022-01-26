@@ -1,4 +1,4 @@
-import domain.Regions
+import crs.ttt.domain.Regions
 import groovy.json.JsonSlurper
 
 import java.net.http.HttpClient

@@ -18,15 +18,20 @@ where the events are registered. Can be found at Google Calendars -> Settings ->
 1. DownloadAllHikes: Download all hike data in json format into the datasource folder (all-hikes.json)
 2. DownloadHikeDetails: Download details of all the hikes in the specified regions. Only the details contains the information if a hike is part of the TTT coup or not.
 
-### Execute event insertion:
+### List events of the given calendar
 ~~~
 gw run --args "asd@group.calendar.google.com"
+~~~
+
+### Execute hike insertion:
+~~~
+gw run --args "asd@group.calendar.google.com insert-hikes"
 ~~~
 
 To upload hikes into the specifies calendar which are part of the TTT coup.
 
 ## Debug
-Apply the following JVM Arguments to log for google's the http clients. (application plugin config in build.gradle)
+Apply the following JVM Arguments to log for google's the http clients. (application plugin crs.ttt.config in build.gradle)
 ~~~
--Djava.util.logging.config.file=logging.properties
+-Djava.util.logging.crs.ttt.config.file=logging.properties
 ~~~

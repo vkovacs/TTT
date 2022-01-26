@@ -1,4 +1,4 @@
-package domain
+package crs.ttt.domain
 
 class Regions {
     final static int BUDAPEST_REGION = 8

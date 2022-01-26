@@ -26,9 +26,9 @@ test {
 }
 
 application {
-    mainClass = 'MyHikesHandler'
+    mainClass = 'crs.ttt.Application'
     executableDir = 'src/main/groovy'
-    applicationDefaultJvmArgs = ['-Djava.util.logging.config.file=logging.properties']
+    applicationDefaultJvmArgs = ['-Djava.util.logging.crs.ttt.config.file=logging.properties']
 }
 
 tasks.register("DownloadAllHikes") {

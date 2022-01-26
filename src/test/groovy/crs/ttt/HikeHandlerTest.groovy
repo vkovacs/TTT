@@ -1,7 +1,10 @@
+package crs.ttt
+
+import crs.ttt.service.HikeService
 import org.junit.jupiter.api.Test
 
 class HikeHandlerTest {
-    private MyHikesHandler underTest = new MyHikesHandler()
+    private HikeService underTest = new HikeService()
 
     @Test
     void isTTTKupa() {
