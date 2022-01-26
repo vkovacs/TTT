@@ -9,7 +9,7 @@ import java.time.ZoneOffset
 @Field
 static final ZoneOffset myZoneOffset = ZoneOffset.of("+01:00")
 
-def inputFile = new File("../../../datasource/all-hikes.json").readLines()
+def inputFile = new File("datasource/all-hikes.json").readLines()
 JsonSlurper jsonSlurper = new JsonSlurper()
 
 def allHikes = jsonSlurper.parseText(inputFile[0]) as List
@@ -17,7 +17,7 @@ def allHikes = jsonSlurper.parseText(inputFile[0]) as List
 def myHikes = allHikes
         .findAll { it.regions.contains(Regions.BUDAPEST_REGION) || it.regions.contains(Regions.BUDAI_HEGYSEG_REGION) }
         .findAll {
-            def hikeDetails = new File("../../../datasource/${it.id}").readLines().join()
+            def hikeDetails = new File("datasource/${it.id}").readLines().join()
             isTTTKupa(hikeDetails)
         }
         .collect {
@@ -26,8 +26,8 @@ def myHikes = allHikes
 
 assert args.length == 1
 def calendarId = args[0]
-
-new CalendarService().addHikes(calendarId, myHikes)
+//new CalendarService().addHikes(calendarId, myHikes)
+new CalendarService().printEvents(calendarId)
 
 
 

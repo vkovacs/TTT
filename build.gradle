@@ -1,5 +1,6 @@
 plugins {
     id 'groovy'
+    id 'application'
 }
 
 group 'org.example'
@@ -22,6 +23,12 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+application {
+    mainClass = 'MyHikesHandler'
+    executableDir = 'src/main/groovy'
+    applicationDefaultJvmArgs = ['-Djava.util.logging.config.file=logging.properties']
 }
 
 tasks.register("DownloadAllHikes") {

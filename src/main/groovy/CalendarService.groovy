@@ -24,7 +24,7 @@ class CalendarService {
     /** Global instance of the JSON factory. */
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance()
     /** Directory to store authorization tokens for this application. */
-    private static final String TOKENS_DIRECTORY_PATH = "../../../tokens"
+    private static final String TOKENS_DIRECTORY_PATH = "tokens"
 
     /**
      * Global instance of the scopes required by this quickstart.
@@ -74,7 +74,7 @@ class CalendarService {
         }
     }
 
-    private static void getEvents(Calendar service, String calendarId) {
+    void printEvents(String calendarId) {
 // List the next 10 events from the primary calendar.
         DateTime now = new DateTime(System.currentTimeMillis())
         Events events = service.events().list(calendarId)
