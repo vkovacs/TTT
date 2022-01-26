@@ -68,7 +68,7 @@ class CalendarService {
     }
 
     void addHikes(String calendarId, List<Hike> hikes) {
-            service.events().insert(calendarId, toEvent(hikes[0])).execute()
+        service.events().insert(calendarId, toEvent(hikes[0])).execute()
     }
 
     private static void getEvents(Calendar service, String calendarId) {
@@ -99,19 +99,19 @@ class CalendarService {
         Event event = new Event()
                 .setSummary(hike.name)
                 .setLocation(hike.location)
-                .setDescription(hike.url);
+                .setDescription(hike.url)
 
-        DateTime startDateTime = new DateTime(hike.startTime.toEpochSecond(ZoneOffset.of("+01:00"))*1000);
+        DateTime startDateTime = new DateTime(hike.startTime.toEpochSecond(ZoneOffset.of("+01:00")) * 1000)
         EventDateTime start = new EventDateTime()
                 .setDateTime(startDateTime)
-                .setTimeZone("Europe/Budapest");
-        event.setStart(start);
+                .setTimeZone("Europe/Budapest")
+        event.setStart(start)
 
-        DateTime endDateTime = new DateTime(hike.endTime.toEpochSecond(ZoneOffset.of("+01:00"))*1000);
+        DateTime endDateTime = new DateTime(hike.endTime.toEpochSecond(ZoneOffset.of("+01:00")) * 1000)
         EventDateTime end = new EventDateTime()
                 .setDateTime(endDateTime)
-                .setTimeZone("Europe/Budapest");
+                .setTimeZone("Europe/Budapest")
         event.setEnd(end);
-        println(event)
+        return event
     }
 }
