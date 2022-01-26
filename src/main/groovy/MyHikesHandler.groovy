@@ -22,7 +22,7 @@ def myHikes = allHikes
             new Hike(id: it.id, name: it.displayName, location: it.routes[0].route[0], startTime: LocalDateTime.ofEpochSecond(it.routes[0].startTimeFrom as long, 0, myZoneOffset), endTime: LocalDateTime.ofEpochSecond(it.routes[0].startTimeTo as long, 0, myZoneOffset),  url: "https://tturak.hu/hikeOccasion/${it.id}/details")
         }
 
-new CalendarHandler().register(myHikes)
+new CalendarService().addHikes("fillMe", myHikes)
 
 
 

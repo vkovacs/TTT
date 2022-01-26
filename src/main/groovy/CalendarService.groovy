@@ -16,9 +16,10 @@ import com.google.api.services.calendar.model.EventDateTime
 import com.google.api.services.calendar.model.Events
 
 import java.security.GeneralSecurityException
+import java.time.ZoneOffset
 
 /* class to demonstarte use of Calendar events list API */
-class CalendarQuickstart {
+class CalendarService {
     /** Application name. */
     private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
     /** Global instance of the JSON factory. */
@@ -41,7 +42,7 @@ class CalendarQuickstart {
      */
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Load client secrets.
-        InputStream inp = CalendarQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        InputStream inp = CalendarService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
         if (inp == null) {
             throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
         }
@@ -71,26 +72,20 @@ class CalendarQuickstart {
                 .setApplicationName(APPLICATION_NAME)
                 .build();
 
-        Event event = new Event()
-                .setSummary("Test")
-                .setLocation("800 Howard St., San Francisco, CA 94103")
-                .setDescription("A chance to hear more about Google's developer products.");
-
-        DateTime startDateTime = new DateTime("2022-01-26T19:00:00+01:00");
-        EventDateTime start = new EventDateTime()
-                .setDateTime(startDateTime)
-                .setTimeZone("America/Los_Angeles");
-        event.setStart(start);
-
-        DateTime endDateTime = new DateTime("2022-01-26T20:00:00+01:00");
-        EventDateTime end = new EventDateTime()
-                .setDateTime(endDateTime)
-                .setTimeZone("America/Los_Angeles");
-        event.setEnd(end);
-        service.events().insert(calendarId, event).execute()
-
 
         getEvents(service, calendarId)
+    }
+
+    void addHikes(String calendarId, List<Hike> hikes) {
+        // Build a new authorized API client service.
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+
+
+            service.events().insert(calendarId, toEvent(hikes[0])).execute()
+
     }
 
     private static void getEvents(Calendar service, String calendarId) {
@@ -115,5 +110,25 @@ class CalendarQuickstart {
                 System.out.printf("%s (%s)\n", event.getSummary(), start);
             }
         }
+    }
+
+    Event toEvent(Hike hike) {
+        Event event = new Event()
+                .setSummary(hike.name)
+                .setLocation(hike.location)
+                .setDescription(hike.url);
+
+        DateTime startDateTime = new DateTime(hike.startTime.toEpochSecond(ZoneOffset.of("+01:00"))*1000);
+        EventDateTime start = new EventDateTime()
+                .setDateTime(startDateTime)
+                .setTimeZone("Europe/Budapest");
+        event.setStart(start);
+
+        DateTime endDateTime = new DateTime(hike.endTime.toEpochSecond(ZoneOffset.of("+01:00"))*1000);
+        EventDateTime end = new EventDateTime()
+                .setDateTime(endDateTime)
+                .setTimeZone("Europe/Budapest");
+        event.setEnd(end);
+        println(event)
     }
 }
