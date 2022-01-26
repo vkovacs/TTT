@@ -20,18 +20,18 @@ import java.time.ZoneOffset
 
 class CalendarService {
     /** Application name. */
-    private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
+    private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart"
     /** Global instance of the JSON factory. */
-    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance()
     /** Directory to store authorization tokens for this application. */
-    private static final String TOKENS_DIRECTORY_PATH = "../../../tokens";
+    private static final String TOKENS_DIRECTORY_PATH = "../../../tokens"
 
     /**
      * Global instance of the scopes required by this quickstart.
      * If modifying these scopes, delete your previously saved tokens/ folder.
      */
-    private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_EVENTS);
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+    private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_EVENTS)
+    private static final String CREDENTIALS_FILE_PATH = "/credentials.json"
     private static final Calendar service
 
     /**
@@ -42,30 +42,30 @@ class CalendarService {
      */
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Load client secrets.
-        InputStream inp = CalendarService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        InputStream inp = CalendarService.class.getResourceAsStream(CREDENTIALS_FILE_PATH)
         if (inp == null) {
-            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH)
         }
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(inp));
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(inp))
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
                 .setDataStoreFactory(new FileDataStoreFactory(new File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType("offline")
-                .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+                .build()
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build()
+        Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user")
         //returns an authorized Credential object.
-        return credential;
+        return credential
     }
 
     static {
         // Build a new authorized API client service.
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport()
         service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
-                .build();
+                .build()
     }
 
     void addHikes(String calendarId, List<Hike> hikes) {
@@ -74,24 +74,24 @@ class CalendarService {
 
     private static void getEvents(Calendar service, String calendarId) {
 // List the next 10 events from the primary calendar.
-        DateTime now = new DateTime(System.currentTimeMillis());
+        DateTime now = new DateTime(System.currentTimeMillis())
         Events events = service.events().list(calendarId)
                 .setMaxResults(10)
                 .setTimeMin(now)
                 .setOrderBy("startTime")
                 .setSingleEvents(true)
-                .execute();
-        List<Event> items = events.getItems();
+                .execute()
+        List<Event> items = events.getItems()
         if (items.isEmpty()) {
-            System.out.println("No upcoming events found.");
+            System.out.println("No upcoming events found.")
         } else {
-            System.out.println("Upcoming events");
+            System.out.println("Upcoming events")
             for (Event event : items) {
-                DateTime start = event.getStart().getDateTime();
+                DateTime start = event.getStart().getDateTime()
                 if (start == null) {
-                    start = event.getStart().getDate();
+                    start = event.getStart().getDate()
                 }
-                System.out.printf("%s (%s)\n", event.getSummary(), start);
+                System.out.printf("%s (%s)\n", event.getSummary(), start)
             }
         }
     }
@@ -112,7 +112,7 @@ class CalendarService {
         EventDateTime end = new EventDateTime()
                 .setDateTime(endDateTime)
                 .setTimeZone("Europe/Budapest")
-        event.setEnd(end);
+        event.setEnd(end)
         return event
     }
 }
