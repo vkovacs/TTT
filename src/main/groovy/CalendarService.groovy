@@ -15,10 +15,8 @@ import com.google.api.services.calendar.model.Event
 import com.google.api.services.calendar.model.EventDateTime
 import com.google.api.services.calendar.model.Events
 
-import java.security.GeneralSecurityException
 import java.time.ZoneOffset
 
-/* class to demonstarte use of Calendar events list API */
 class CalendarService {
     /** Application name. */
     private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
@@ -33,6 +31,7 @@ class CalendarService {
      */
     private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_EVENTS);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+    private static final Calendar service
 
     /**
      * Creates an authorized Credential object.
@@ -51,7 +50,7 @@ class CalendarService {
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+                .setDataStoreFactory(new FileDataStoreFactory(new File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType("offline")
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
@@ -60,32 +59,16 @@ class CalendarService {
         return credential;
     }
 
-    static void main(String... args) throws IOException, GeneralSecurityException {
-        if (args.length < 1) {
-            throw new IllegalArgumentException("Please provide calendar id")
-        }
-        def calendarId = args[0]
-
+    static {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+        service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
-
-
-        getEvents(service, calendarId)
     }
 
     void addHikes(String calendarId, List<Hike> hikes) {
-        // Build a new authorized API client service.
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-                .setApplicationName(APPLICATION_NAME)
-                .build();
-
-
             service.events().insert(calendarId, toEvent(hikes[0])).execute()
-
     }
 
     private static void getEvents(Calendar service, String calendarId) {
