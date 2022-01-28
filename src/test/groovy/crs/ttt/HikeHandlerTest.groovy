@@ -8,9 +8,9 @@ class HikeHandlerTest {
 
     @Test
     void isTTTKupa() {
-        assert underTest.isTTTKupa("A túra a Budapest Kupa, a Cimbora Kupa 2022. a 20-22 MINI Kupa és a Félmillió Lépés része.")
-        assert underTest.isTTTKupa("A túra a budapest kupa, a Cimbora Kupa 2022. a 20-22 MINI Kupa és a Félmillió Lépés része.")
-        assert underTest.isTTTKupa("""<h2>A túra létszámkorlátos!&nbsp;100 fő.</h2>
+        assert underTest.isTTTCoup("A túra a Budapest Kupa, a Cimbora Kupa 2022. a 20-22 MINI Kupa és a Félmillió Lépés része.")
+        assert underTest.isTTTCoup("A túra a budapest kupa, a Cimbora Kupa 2022. a 20-22 MINI Kupa és a Félmillió Lépés része.")
+        assert underTest.isTTTCoup("""<h2>A túra létszámkorlátos!&nbsp;100 fő.</h2>
             <h2>Előnevezés a következő <a href="https://docs.google.com/forms/d/18MpigmKwOzQRZMlEiBcs3VW7_rxa56NEyW8Y6qasR8o/edit"><strong>LINKEN!</strong></a></h2>
             <h2>A túra nevezési díja magában foglalja a díjazás (kitűző, emléklap), térképes itiner, szervezői költségek, csoki és a Pilisi Parkerdőnek fizetett területhasználati díj összegét.</h2>
             <h2><strong>Írószer szükséges!</strong></h2>
