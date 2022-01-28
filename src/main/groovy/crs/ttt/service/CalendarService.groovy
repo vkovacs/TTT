@@ -32,7 +32,7 @@ class CalendarService {
      * If modifying these scopes, delete your previously saved tokens/ folder.*/
     private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_EVENTS)
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json"
-    private static final Calendar service
+    private final Calendar service
 
     /**
      * Creates an authorized Credential object.
@@ -59,7 +59,7 @@ class CalendarService {
         return credential
     }
 
-    static {
+    {
         // Build a new authorized API client crs.ttt.service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport()
         service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
@@ -74,7 +74,7 @@ class CalendarService {
     }
 
     void printEvents(String calendarId) {
-    // List the next 10 events from the primary calendar.
+        // List the next 10 events from the primary calendar.
         DateTime now = new DateTime(System.currentTimeMillis())
         Events events = service.events().list(calendarId)
                 .setMaxResults(10)
