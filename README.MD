@@ -5,13 +5,19 @@ Register these hikes in Google Calendar.
 ## Prerequisites
 ### Project credentials
 ~~~
-src/main/resources/credentials.json:
+src/main/resources/credentials.json
 ~~~
 which can be acquired from https://console.cloud.google.com/apis/credentials -> 
 OAuth 2.0 Client IDs -> Download JSON for the given project.
 
 ### Google Calendar Id
 where the events are registered. Can be found at Google Calendars -> Settings -> ${Calendar name} -> Share -> Calendar settings -> Calendar Id
+
+### Fresh user credentials
+Delete
+~~~
+tokens/StoredCredential
+~~~
 
 ## Usage
 ### Gradle Tasks: (Under group TTT)

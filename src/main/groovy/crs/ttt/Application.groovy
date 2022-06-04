@@ -18,7 +18,6 @@ class Application {
         def calendarId = args[0]
 
         def calendarService = new CalendarService()
-        calendarService.printEvents(calendarId)
 
         if (args.length > 1 && args[1] == "insert-hikes") {
             calendarService.insertHikes(calendarId, tttCoupHikes)
