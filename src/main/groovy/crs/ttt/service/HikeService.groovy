@@ -11,6 +11,7 @@ class HikeService {
     List<Hike> filter(def allHikes) {
         return allHikes
                 .findAll { it.regions.contains(Regions.BUDAPEST_REGION) || it.regions.contains(Regions.BUDAI_HEGYSEG_REGION) }
+                .findAll { LocalDateTime.ofEpochSecond(it.routes[0].startTimeFrom as long, 0, Configuration.myZoneOffset).isAfter(LocalDateTime.now().minusDays(1))}
                 .findAll {
                     def hikeDetails = new File("datasource/${it.id}").readLines().join()
                     isTTTCoup(hikeDetails)
